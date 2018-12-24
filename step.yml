@@ -29,14 +29,9 @@ host_os_tags:
 # You can find more information about project type tags in the Step Development Guideline:
 # https://github.com/bitrise-io/bitrise/blob/master/_docs/step-development-guideline.md
 #
-# project_type_tags:
-#   - ios
-#   - macos
-#   - android
-#   - xamarin
-#   - react-native
-#   - cordova
-#   - ionic
+project_type_tags:
+  - ios
+  - macos
 
 # Type tags are used for categorizing steps, for easier step discovery in Step Libraries.
 # You can find more information about type tags in the Step Development Guideline:
@@ -44,19 +39,10 @@ host_os_tags:
 type_tags:
   - deploy
 
-is_requires_admin_user: true
+is_requires_admin_user: false
 is_always_run: false
 is_skippable: false
 run_if: ""
-
-deps:
-  brew:
-  - name: git
-  - name: wget
-  apt_get:
-  - name: git
-  - name: wget
-
 
 toolkit:
   bash:
@@ -64,24 +50,40 @@ toolkit:
 
 
 inputs:
-  - example_step_input: Default Value - you can leave this empty if you want to
+  - executable_path: "${BITRISE_SOURCE_DIR}/Pods/Fabric/upload-symbols"
     opts:
-      title: "Example Step Input"
-      summary: Summary. No more than 2-3 sentences.
+      title: "Fabric executable"
+      summary: Command to run the `upload-symbols` executable.
       description: |
-        Description of this input.
-
-        Can be Markdown formatted text.
+        Command to run the Fabric `upload-symbols` executable. 
+        Usually it's located in Fabric pod directory. For example: `$ROOT/Pods/Fabric/upload-symbols`.
       is_expand: true
       is_required: true
-      value_options: []
 
-outputs:
-  - EXAMPLE_STEP_OUTPUT:
+  - google_service_plist: "${BITRISE_SOURCE_DIR}/Speechify/Supporting Files/GoogleService-Info.plist"
     opts:
-      title: "Example Step Output"
-      summary: Summary. No more than 2-3 sentences.
+      title: "GoogleService-Info.plist"
+      summary: Path to the proejcts `GoogleService-Info.plist` file that contains required API tokens.
       description: |
-        Description of this output.
+        Path to the proejcts `GoogleService-Info.plist` file that contains required API tokens.
+      is_expand: true
+      is_required: true
 
-        Can be Markdown formatted text.
+  - dsym_dirs: "${BITRISE_DSYM_DIR_PATH}"
+    opts:
+      title: "dSYM files path"
+      summary: Path to the dSYM files.
+      description: |
+        Path to the dSYM files.
+      is_expand: true
+      is_required: true
+
+# outputs:
+  # - EXAMPLE_STEP_OUTPUT:
+  #   opts:
+  #     title: "Example Step Output"
+  #     summary: Summary. No more than 2-3 sentences.
+  #     description: |
+  #       Description of this output.
+
+  #       Can be Markdown formatted text.
